@@ -15,8 +15,9 @@ jobs:
     runs-on: ubuntu-latest
     environment: cf
     steps:
-      - name checkout
+      - name: checkout
         uses: actions/checkout@v4
+      - name: prepare config
         run: sed -i "s/KV_NAME/{{ secrets.KV_NAME }}/g" wrangler.toml
       - name: deploy
         uses: cloudflare/wrangler-action@v3
