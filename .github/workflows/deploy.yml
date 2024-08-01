@@ -17,8 +17,12 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v4
+
       - name: prepare config
-        run: sed -i "s/KV_NAME/{{ secrets.KV_NAME }}/g" wrangler.toml
+        run: sed -i "s/KV_NAME/$KV_NAME/g" wrangler.toml
+      env:
+        KV_NAME: ${{ secrets.KV_NAME }}
+
       - name: deploy
         uses: cloudflare/wrangler-action@v3
         with:
