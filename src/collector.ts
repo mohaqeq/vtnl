@@ -81,7 +81,7 @@ export async function GetConfigList(url: URL, env: Env): Promise<Array<Config>> 
   let acceptableConfigList: Array<any> = []
   let finalConfigList: Array<Config> = []
   let newConfigs: Array<any> = []
-  const configPerList: number = Math.floor(maxConfigs / Object.keys(providers).length)
+  const configPerList: number = 1 //Math.floor(maxConfigs / Object.keys(providers).length)
   
   for (const providerUrl of providers) {
     try {
@@ -145,11 +145,11 @@ export async function GetConfigList(url: URL, env: Env): Promise<Array<Config>> 
     }
   }
 
-  for (const el of acceptableConfigList) {
-    finalConfigList = finalConfigList.concat(
-      GetMultipleRandomElements(el.mergedConfigs, el.count)
-    )
-  }
+  // for (const el of acceptableConfigList) {
+  //   finalConfigList = finalConfigList.concat(
+  //     GetMultipleRandomElements(el.mergedConfigs, el.count)
+  //   )
+  // }
 
   if (includeOriginalConfigs) {
     let remaining = 0
@@ -164,11 +164,11 @@ export async function GetConfigList(url: URL, env: Env): Promise<Array<Config>> 
         }
       }
     }
-    for (const el of configList) {
-      finalConfigList = finalConfigList.concat(
-        GetMultipleRandomElements(el.configs, el.count)
-      )
-    }
+    // for (const el of configList) {
+    //   finalConfigList = finalConfigList.concat(
+    //     GetMultipleRandomElements(el.configs, el.count)
+    //   )
+    // }
   }
 
   if (myConfigs.length) {
