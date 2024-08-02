@@ -9,8 +9,8 @@ import { Env, Config } from "./interfaces"
 
 
 export async function GetConfigList(url: URL, env: Env): Promise<Array<Config>> {
-  let maxConfigs: number = 200
-  const maxBuiltInConfigsPerType: number = 20
+  let maxConfigs: number = 4
+  const maxBuiltInConfigsPerType: number = 1
   let protocols: Array<string> = []
   let providers: Array<string> = []
   let alpnList: Array<string> = []
@@ -23,7 +23,7 @@ export async function GetConfigList(url: URL, env: Env): Promise<Array<Config>> 
   let enableFragments = false
 
   try {
-    maxConfigs = parseInt(await env.settings.get("MaxConfigs") || "200")
+    maxConfigs = parseInt(await env.settings.get("MaxConfigs") || "4")
     const settingsVersion = await env.settings.get("Version") || "2.0"
     if (settingsVersion == version) {
       protocols = await env.settings.get("Protocols").then(val => {return val ? val.split("\n") : []})

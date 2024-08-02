@@ -19,7 +19,7 @@ export async function GetPanel(request: Request, env: Env): Promise<Response> {
       await env.settings.delete("Providers")
       await env.settings.delete("Protocols")
     }
-    const maxConfigs: number = parseInt(await env.settings.get("MaxConfigs") || "200")
+    const maxConfigs: number = parseInt(await env.settings.get("MaxConfigs") || "4")
     const protocols: Array<string> = (await env.settings.get("Protocols"))?.split("\n").filter(t => t.trim().length > 0) || defaultProtocols
     const alpnList: Array<string> = (await env.settings.get("ALPNs"))?.split("\n").filter(t => t.trim().length > 0) || []
     const fingerPrints: Array<string> = (await env.settings.get("FingerPrints"))?.split("\n").filter(t => t.trim().length > 0) || []
@@ -313,7 +313,7 @@ export async function GetPanel(request: Request, env: Env): Promise<Response> {
           </div>
           <div class="mb-1 p-1">
             <label id="max-configs-title" for="max-configs" class="form-label fw-bold"></label>
-            <input type="number" name="max" class="form-control" id="max-configs" value="${maxConfigs}" min="50"/>
+            <input type="number" name="max" class="form-control" id="max-configs" value="${maxConfigs}"/>
             <div class="form-text"></div>
           </div>
           <div class="mb-1 p-1">
@@ -455,7 +455,7 @@ export async function GetPanel(request: Request, env: Env): Promise<Response> {
           </div>
         </body>
         <script>
-        let language = localStorage.getItem("lang") || "fa"
+        let language = localStorage.getItem("lang") || "en"
         window.addEventListener("load", (event) => {
           initLang();
           setLang(language);
@@ -571,10 +571,8 @@ export async function PostPanel(request: Request, env: Env): Promise<Response> {
         await env.settings.put("Password", hashedPassword)
         await env.settings.put("Token", token)
       }
-      let maxConfigs = parseInt(formData.get("max")?.toString() || "200")
-      if (maxConfigs < 50) {
-        maxConfigs = 50
-      }
+      let maxConfigs = parseInt(formData.get("max")?.toString() || "4")
+
       await env.settings.put("MaxConfigs", maxConfigs.toString())
       await env.settings.put("Protocols", formData.getAll("protocols")?.join("\n").trim())
       await env.settings.put("ALPNs", formData.get("alpn_list_check")?.toString() ? formData.get("alpn_list")?.toString().trim().split("\n").map(str => str.trim()).join("\n") || "" : "")
